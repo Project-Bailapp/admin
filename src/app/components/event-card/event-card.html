@@ -1,0 +1,36 @@
+@let _event = event();
+
+<div event-card
+  class="flex flex-col shrink-0
+    cursor-pointer relative overflow-hidden
+    basis-80 max-w-[min(32rem,_95dvw)] aspect-square rounded-xl p-2
+    bg-[image:var(--bg-url)] bg-no-repeat bg-cover bg-center"
+  [style.--bg-url]="`url(${_event.bannerUrl}), url(https://i.imgur.com/wDi0xHn.jpeg)`"
+  (click)="cardTap.emit()"
+>
+  <div class="flex grow-1 flex-col justify-between z-1">
+    <div>
+      <div class="flex justify-between flex-nowrap gap-1">
+        <h1 class="text-2xl font-bold">{{_event.title}}</h1>
+        <dance-type-pills [danceTypeIds]="_event.danceTypes" />
+      </div>
+      <p class="whitespace-pre-wrap">{{_event.description}}</p>
+    </div>
+    
+    <div>
+    <event-type-tags [eventTypeIds]="_event.eventTypes" />
+     <p>
+        <a class="font-bold hover:text-blue-400" (click)="openGMapsLink(_event.location); $event.stopPropagation()">
+          {{_event.location}}
+        </a>
+        - {{_event.price ? `€${_event.price}` : 'Gratis'}}
+      </p>
+      <p>{{_event.eventDate | date:"dd-MMM-yyyy @ hh:mm"}}</p>
+      <div class="flex justify-between items-baseline">
+        <small><strong>Actualizado: </strong> {{ _event.updated | date:"dd-MMM-yyyy @ hh:mm" }}</small>
+        <p>[id: {{_event.id}}]</p>
+      </div>
+    </div>
+  </div>
+  <div class="absolute inset-0 bg-black opacity-50"></div>
+</div>
