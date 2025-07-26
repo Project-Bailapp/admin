@@ -1,0 +1,75 @@
+name: Deploy Angular App to GitHub Pages
+
+# This workflow will run on every push to the 'main' branch.
+# You can change 'main' to your primary branch if it's different.
+on:
+  push:
+    branches:
+      - main
+  # This allows you to run the workflow manually from the Actions tab.
+  workflow_dispatch:
+
+# Defines a single job named 'deploy'
+jobs:
+  deploy:
+    # The job will run on a fresh Ubuntu runner.
+    runs-on: ubuntu-latest
+    
+    # Specifies permissions for the job, allowing it to write to the repository
+    # and access the contents for the build and deployment process.
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    # The steps that make up the 'deploy' job.
+    steps:
+      # Step 1: Checks out your repository code.
+      # This is the first step in almost all GitHub Actions workflows.
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Sets up Node.js.
+      # Specifies the version of Node.js to use. We use a recent LTS version.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Step 3: Sets up Bun.
+      # This action installs Bun and adds it to the PATH.
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      # Step 4: Installs Angular CLI and project dependencies using Bun.
+      - name: Install Dependencies
+        run: |
+          npm install -g @angular/cli
+          bun install
+
+      # Step 5: Builds the Angular application for production.
+      # The '--output-path docs' flag is crucial. GitHub Pages often
+      # serves from a 'docs' directory or the root. We'll use 'docs'.
+      - name: Build Angular App
+        run: ng build --base-href="https://project-bailapp.github.io/admin/"
+
+      # - name: upload artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: angular-build
+      #     path: "./dist/admin/"
+
+      # Step 6: Deploys the built application to GitHub Pages.
+      # This step uses the 'peaceiris/actions-gh-pages' action, a popular choice for this task.
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          # This token is automatically generated for the workflow run.
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # The branch to deploy to. 'gh-pages' is the standard for GitHub Pages.
+          publish_branch: gh-pages
+          # The directory containing the build output to be deployed.
+          publish_dir: ./dist/admin/browser
+          # Ensures the deployment is done as the 'github-actions' bot user.
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
