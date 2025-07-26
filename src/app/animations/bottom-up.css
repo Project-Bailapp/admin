@@ -1,0 +1,16 @@
+@theme {
+  --animate-bottom-up: bottom-up 0.25s;
+
+  @keyframes bottom-up {
+    from {
+      overflow: hidden;
+      opacity: 0.75;
+      max-height: 0;
+    }
+    to {
+      max-height: 25rem;
+      opacity: 1;
+      overflow: hidden;
+    }
+  }
+}

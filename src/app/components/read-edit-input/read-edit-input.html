@@ -1,0 +1,61 @@
+@let commonInputClass = "px-2 py-0.5 outline-none border-b-1 border-l-1 border-gray-400";
+
+<div read-edit-input class="flex flex-col gap-1 px-1 min-w-(--read-edit-input__min-w,_0)">
+  @if (editMode() && label(); as label) {
+    <label class="font-bold">{{label}}</label>
+  }
+
+  <div class="flex [&>:not([prefix])]:grow-1">
+    @if (editMode()) {
+      @let _pref = prefix();
+      @if (_pref) {
+        <span prefix class="bg-gray-600 rounded-tl-md rounded-bl-md px-2">{{_pref}}</span>
+      }
+
+      @switch (type()) {
+      @case ('textarea') {
+        <textarea
+          class="rounded-bl-md resize-none field-sizing-content"
+          [class]="commonInputClass"
+          rows="3"
+          [value]="value()"
+          (keyup)="onTextWrite($event)">
+        </textarea>
+      }
+      @case ('img') {
+        <div class="flex flex-col">
+          <ng-container *ngTemplateOutlet="defaultInput; context: { $implicit: type(), pref: _pref }" />
+          <a [href]="value()" target="_blank">
+            <img class="max-w-[min(20rem, 50dvh)] rounded-md
+              bg-[image:url(https://i.imgur.com/wDi0xHn.jpeg)] aspect-[auto_1/1] bg-center bg-cover"
+              alt=" "
+              [src]="value()"
+            />
+          </a>
+        </div>
+      }
+      @case ('datetime') {
+        <ng-container *ngTemplateOutlet="defaultInput; context: { $implicit: 'datetime-local' }" />
+      }
+      @default {
+        <ng-container *ngTemplateOutlet="defaultInput; context: { $implicit: type(), pref: _pref }" />
+      }
+      }
+    } @else {
+      <ng-content>
+        <p class="whitespace-pre-wrap">{{ displayValue() }}</p>
+      </ng-content>
+    }
+  </div>
+</div>
+
+<ng-template #defaultInput let-type let-pref="pref">
+  <input
+    [class]="commonInputClass"
+    [class.border-l-1]="!pref"
+    [class.rounded-bl-md]="!pref"
+    [type]="type"
+    [value]="value()"
+    (keyup)="onTextWrite($event)"
+  />
+</ng-template>

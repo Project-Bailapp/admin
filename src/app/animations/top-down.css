@@ -1,0 +1,16 @@
+@theme {
+  --animate-top-down: top-down 0.25s;
+
+  @keyframes top-down {
+    from {
+      max-height: 25rem;
+      opacity: 1;
+      overflow: hidden;
+    }
+    to {
+      overflow: hidden;
+      opacity: 0.75;
+      max-height: 0;
+    }
+  }
+}
