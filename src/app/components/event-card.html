@@ -1,0 +1,44 @@
+@let _event = event();
+
+<div class="flex flex-col grow-1 shrink-0
+            cursor-pointer relative text-white overflow-hidden
+            basis-80 max-w-3/5 aspect-square rounded-xl border-[1px] m-1 p-2
+            bg-[image:var(--bg-url)] bg-no-repeat bg-cover bg-center"
+  [style.--bg-url]="`url(${_event.bannerUrl}), url(https://i.imgur.com/tVctxRt.png)`"
+  [routerLink]="`${_event.id}`"
+>
+  <div class="flex grow-1 flex-col justify-between z-1">
+    <div>
+      <div class="flex justify-between flex-nowrap">
+        <h1 class="text-2xl font-bold">{{_event.title}}</h1>
+        <div>
+          @for (dType of _event.danceTypes; track dType) {
+            <span>{{ state.danceTypes()[dType] }},</span>
+          }
+        </div>
+      </div>
+      <p>{{_event.description}}</p>
+    </div>
+    
+    <div>
+      <p>
+        <a class="font-bold hover:text-blue-400" (click)="openGMapsLink(_event.location); $event.stopPropagation()">
+          {{_event.location}}
+        </a>
+        <br>
+        {{_event.price ? `€${_event.price}` : 'GRATIS'}}
+      </p>
+      <p>{{_event.eventDate.toLocaleString()}}</p>
+      <p>
+        @for (eType of _event.eventTypes; track eType) {
+          <span>{{ state.eventTypes()[eType] }}</span>&nbsp;
+        }
+      </p>
+      <div class="flex justify-between">
+        <small><strong>Created: </strong> {{ _event.created.toLocaleString() }}</small>
+        <p>[id: {{_event.id}}]</p>
+      </div>
+    </div>
+  </div>
+  <div class="absolute inset-0 bg-black opacity-50"></div>
+</div>
