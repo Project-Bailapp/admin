@@ -1,0 +1,1 @@
+import{Aa as n,tb as s}from"./chunk-GKZRFQMY.js";var o=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=n({type:t,selectors:[["ng-component"]],hostAttrs:[1,"contents"],decls:1,vars:0,template:function(e,a){e&1&&s(0," Event types ")},encapsulation:2,changeDetection:0})};export{o as EventTypes};
