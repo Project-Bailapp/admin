@@ -1,0 +1,1 @@
+import{$b as o}from"./chunk-6UE5M2JL.js";function p(t,e){let n=o.token();if(n){let r=t.clone({headers:t.headers.set("Authorization",`Bearer ${n}`)});return e(r)}return e(t)}function s(t,e){let n=t.clone({headers:t.headers.set("Content-Type","application/json"),body:JSON.stringify(t.body)});return e(n)}export{p as a,s as b};

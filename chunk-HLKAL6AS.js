@@ -1,1 +1,0 @@
-import{Aa as n,tb as s}from"./chunk-GKZRFQMY.js";var a=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=n({type:t,selectors:[["ng-component"]],hostAttrs:[1,"contents"],decls:1,vars:0,template:function(e,o){e&1&&s(0," Dance types ")},encapsulation:2,changeDetection:0})};export{a as DanceTypes};
